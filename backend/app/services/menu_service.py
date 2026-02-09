@@ -1,7 +1,7 @@
 """
 Menu Service - Unit 2: Customer Order Domain
 
-메뉴 조회 비즈니스 로직을 담당합니다.
+Menu query business logic
 """
 
 from typing import List, Optional
@@ -10,7 +10,7 @@ from app.repositories.menu_repository import MenuRepository
 
 
 class MenuService:
-    """메뉴 조회 서비스"""
+    """Menu service"""
 
     def __init__(self, menu_repository: MenuRepository):
         self.menu_repository = menu_repository
@@ -21,21 +21,21 @@ class MenuService:
         category: Optional[str] = None
     ) -> List[Menu]:
         """
-        판매 가능한 메뉴 조회
+        Get available menus
 
         Args:
-            store_id: 매장 ID
-            category: 카테고리 필터 (선택사항)
+            store_id: Store ID
+            category: Category filter (optional)
 
         Returns:
-            판매 가능한 메뉴 목록
+            List of available menus
         """
-        menus = self.menu_repository.find_by_store(store_id)
+        menus = self.menu_repository.get_by_store(store_id)
 
-        # 판매 가능한 메뉴만 필터링
+        # Filter available menus only
         available_menus = [menu for menu in menus if menu.is_available]
 
-        # 카테고리 필터링
+        # Filter by category
         if category:
             available_menus = [
                 menu for menu in available_menus
@@ -46,27 +46,27 @@ class MenuService:
 
     def get_menu_by_id(self, menu_id: int) -> Optional[Menu]:
         """
-        메뉴 상세 조회
+        Get menu by ID
 
         Args:
-            menu_id: 메뉴 ID
+            menu_id: Menu ID
 
         Returns:
-            메뉴 객체 또는 None
+            Menu object or None
         """
         return self.menu_repository.get_by_id(menu_id)
 
     def get_categories(self, store_id: int) -> List[str]:
         """
-        카테고리 목록 조회
+        Get category list
 
         Args:
-            store_id: 매장 ID
+            store_id: Store ID
 
         Returns:
-            카테고리 목록 (중복 제거)
+            List of categories (deduplicated)
         """
-        menus = self.menu_repository.find_by_store(store_id)
+        menus = self.menu_repository.get_by_store(store_id)
         categories = set()
 
         for menu in menus:
