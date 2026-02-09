@@ -21,7 +21,7 @@ def create_initial_data():
         
         # Create initial store with admin account
         store = Store(
-            name="?�스??매장",
+            name="Test Store",
             admin_username="admin",
             admin_password_hash=hash_password("admin1234")
         )

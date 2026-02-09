@@ -17,7 +17,7 @@ setup_logging()
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="?�이블오???�비??API",
+    description="Table Order Service API",
     docs_url="/docs",
     redoc_url="/redoc"
 )
