@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tableorder-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+      - ./backend/app:/app/app  # Hot reload for development
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change-this-secret-key}
+      - DB_FILE_PATH=/app/data/app.db
+      - UPLOAD_DIR=/app/uploads/menu-images
+      - LOG_FILE_PATH=/app/logs/app-{date}.log
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=http://localhost:5173
+      - PYTHONUNBUFFERED=1
+    networks:
+      - tableorder-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tableorder-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src  # Hot reload for development
+      - ./frontend/public:/app/public
+      - /app/node_modules  # Prevent overwriting node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_SSE_URL=http://localhost:8000
+    networks:
+      - tableorder-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  tableorder-network:
+    driver: bridge
