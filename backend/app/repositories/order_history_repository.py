@@ -4,8 +4,8 @@ OrderHistory Repository
 from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-from backend.app.models.order_history import OrderHistory
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.order_history import OrderHistory
+from app.repositories.base_repository import BaseRepository
 
 
 class OrderHistoryRepository(BaseRepository[OrderHistory]):

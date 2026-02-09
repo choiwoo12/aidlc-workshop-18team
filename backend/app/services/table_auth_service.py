@@ -3,10 +3,10 @@ Table Authentication Service
 """
 from datetime import datetime
 from sqlalchemy.orm import Session
-from backend.app.repositories.table_repository import TableRepository
-from backend.app.models.table import TableStatus
-from backend.app.utils.jwt_manager import create_access_token
-from backend.app.utils.exceptions import AuthenticationError
+from app.repositories.table_repository import TableRepository
+from app.models.table import TableStatus
+from app.utils.jwt_manager import create_access_token
+from app.utils.exceptions import AuthenticationError
 
 
 class TableAuthService:
@@ -34,7 +34,7 @@ class TableAuthService:
         table = self.table_repo.get_by_table_number(store_id, table_number)
         
         if not table:
-            raise AuthenticationError("존재하지 않는 테이블 번호입니다")
+            raise AuthenticationError("존재?��? ?�는 ?�이�?번호?�니??)
         
         # Update table status to IN_USE if AVAILABLE
         if table.status == TableStatus.AVAILABLE:

@@ -4,10 +4,10 @@ FastAPI Main Application
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from backend.app.config import settings
-from backend.app.utils.database import init_db
-from backend.app.utils.logging_config import setup_logging
-from backend.app.api import auth_controller, health_controller, menu_controller, order_controller, sse_controller
+from app.config import settings
+from app.utils.database import init_db
+from app.utils.logging_config import setup_logging
+from app.api import auth_controller, health_controller, menu_controller, order_controller, sse_controller
 import os
 
 # Setup logging
@@ -17,7 +17,7 @@ setup_logging()
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="테이블오더 서비스 API",
+    description="?�이블오???�비??API",
     docs_url="/docs",
     redoc_url="/redoc"
 )

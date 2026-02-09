@@ -3,8 +3,8 @@ Menu Repository
 """
 from typing import List
 from sqlalchemy.orm import Session
-from backend.app.models.menu import Menu
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.menu import Menu
+from app.repositories.base_repository import BaseRepository
 
 
 class MenuRepository(BaseRepository[Menu]):

@@ -4,8 +4,8 @@ Order Repository
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-from backend.app.models.order import Order, OrderStatus
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.order import Order, OrderStatus
+from app.repositories.base_repository import BaseRepository
 
 
 class OrderRepository(BaseRepository[Order]):

@@ -1,9 +1,9 @@
 """
 Database Initialization Script
 """
-from backend.app.utils.database import init_db, SessionLocal
-from backend.app.models.store import Store
-from backend.app.utils.auth import hash_password
+from app.utils.database import init_db, SessionLocal
+from app.models.store import Store
+from app.utils.auth import hash_password
 
 
 def create_initial_data():
@@ -21,7 +21,7 @@ def create_initial_data():
         
         # Create initial store with admin account
         store = Store(
-            name="테스트 매장",
+            name="?�스??매장",
             admin_username="admin",
             admin_password_hash=hash_password("admin1234")
         )

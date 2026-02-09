@@ -1,5 +1,5 @@
 # Stage 1: Base
-FROM python:3.11-slim as base
+FROM python:3.11-slim AS base
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Stage 2: Dependencies
-FROM base as dependencies
+FROM base AS dependencies
 
 # Copy requirements
 COPY requirements.txt .
@@ -18,7 +18,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 3: Application
-FROM dependencies as application
+FROM dependencies AS application
 
 # Copy application code
 COPY ./app /app/app

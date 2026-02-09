@@ -4,7 +4,7 @@ Database Connection Manager
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.pool import StaticPool
-from backend.app.config import settings
+from app.config import settings
 import os
 
 # Create Base class for models
@@ -64,7 +64,7 @@ def init_db():
         os.makedirs(db_dir, exist_ok=True)
     
     # Import all models to register them with Base
-    from backend.app.models import (
+    from app.models import (
         Store, Table, Menu, Order, OrderItem, OrderHistory
     )
     

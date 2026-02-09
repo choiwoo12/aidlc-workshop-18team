@@ -4,14 +4,14 @@ Menu Model
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, JSON, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from backend.app.utils.database import Base
+from app.utils.database import Base
 
 
 class Menu(Base):
     """
     Menu Entity
     
-    메뉴 정보 및 옵션 관리
+    메뉴 ?�보 �??�션 관�?
     """
     __tablename__ = "menus"
     
@@ -22,14 +22,14 @@ class Menu(Base):
     store_id = Column(Integer, ForeignKey("stores.id", ondelete="CASCADE"), nullable=False, index=True)
     
     # Attributes
-    name = Column(String(100), nullable=False, comment="메뉴명")
-    description = Column(Text, nullable=True, comment="메뉴 설명")
-    price = Column(Float, nullable=False, comment="기본 가격")
-    category_level1 = Column(String(50), nullable=False, index=True, comment="1단계 카테고리")
-    category_level2 = Column(String(50), nullable=True, comment="2단계 카테고리")
-    image_url = Column(String(500), nullable=True, comment="메뉴 이미지 URL")
-    is_available = Column(Boolean, nullable=False, default=True, comment="판매 가능 여부")
-    options = Column(JSON, nullable=True, comment="메뉴 옵션 JSON")
+    name = Column(String(100), nullable=False, comment="메뉴�?)
+    description = Column(Text, nullable=True, comment="메뉴 ?�명")
+    price = Column(Float, nullable=False, comment="기본 가�?)
+    category_level1 = Column(String(50), nullable=False, index=True, comment="1?�계 카테고리")
+    category_level2 = Column(String(50), nullable=True, comment="2?�계 카테고리")
+    image_url = Column(String(500), nullable=True, comment="메뉴 ?��?지 URL")
+    is_available = Column(Boolean, nullable=False, default=True, comment="?�매 가???��?")
+    options = Column(JSON, nullable=True, comment="메뉴 ?�션 JSON")
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

@@ -4,8 +4,8 @@ Authentication Middleware
 from fastapi import Request, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional
-from backend.app.utils.jwt_manager import decode_access_token, verify_token_type
-from backend.app.utils.exceptions import AuthenticationError, AuthorizationError
+from app.utils.jwt_manager import decode_access_token, verify_token_type
+from app.utils.exceptions import AuthenticationError, AuthorizationError
 
 security = HTTPBearer()
 

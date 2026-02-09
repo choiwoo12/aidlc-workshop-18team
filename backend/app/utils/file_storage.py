@@ -5,8 +5,8 @@ import os
 import uuid
 from typing import Optional
 from fastapi import UploadFile
-from backend.app.config import settings
-from backend.app.utils.exceptions import ValidationError
+from app.config import settings
+from app.utils.exceptions import ValidationError
 
 
 class FileStorageManager:
@@ -39,11 +39,11 @@ class FileStorageManager:
         file.file.seek(0)  # Reset to beginning
         
         if file_size > settings.MAX_FILE_SIZE:
-            raise ValidationError(f"파일 크기는 {settings.MAX_FILE_SIZE / 1024 / 1024}MB 이하여야 합니다")
+            raise ValidationError(f"?�일 ?�기??{settings.MAX_FILE_SIZE / 1024 / 1024}MB ?�하?�야 ?�니??)
         
         # Check MIME type (simple check for image/*)
         if not file.content_type or not file.content_type.startswith("image/"):
-            raise ValidationError("이미지 파일만 업로드 가능합니다")
+            raise ValidationError("?��?지 ?�일�??�로??가?�합?�다")
     
     def save_file(self, file: UploadFile) -> str:
         """

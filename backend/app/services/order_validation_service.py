@@ -1,7 +1,7 @@
 """
 Order Validation Service - Unit 2: Customer Order Domain
 
-주문 데이터 유효성 검증 서비스입니다.
+주문 ?�이???�효??검�??�비?�입?�다.
 """
 
 from typing import List, Dict, Any
@@ -10,64 +10,64 @@ from app.utils.exceptions import ValidationError
 
 
 class OrderValidationService:
-    """주문 유효성 검증 서비스"""
+    """주문 ?�효??검�??�비??""
     
     def __init__(self, menu_repository: MenuRepository):
         self.menu_repository = menu_repository
     
     def validate_order_items(self, cart_items: List[Dict[str, Any]]):
         """
-        주문 항목 유효성 검증
+        주문 ??�� ?�효??검�?
         
         Args:
-            cart_items: 장바구니 항목 목록
+            cart_items: ?�바구니 ??�� 목록
         
         Raises:
-            ValidationError: 검증 실패 시
+            ValidationError: 검�??�패 ??
         """
         if not cart_items:
-            raise ValidationError("장바구니가 비어있습니다.")
+            raise ValidationError("?�바구니가 비어?�습?�다.")
         
         for item in cart_items:
             self._validate_cart_item(item)
     
     def _validate_cart_item(self, item: Dict[str, Any]):
         """
-        개별 장바구니 항목 검증
+        개별 ?�바구니 ??�� 검�?
         
         Args:
-            item: 장바구니 항목
+            item: ?�바구니 ??��
         
         Raises:
-            ValidationError: 검증 실패 시
+            ValidationError: 검�??�패 ??
         """
-        # 필수 필드 확인
+        # ?�수 ?�드 ?�인
         required_fields = ['menu_id', 'menu_snapshot', 'quantity', 'subtotal']
         for field in required_fields:
             if field not in item:
-                raise ValidationError(f"필수 필드가 누락되었습니다: {field}")
+                raise ValidationError(f"?�수 ?�드가 ?�락?�었?�니?? {field}")
         
-        # 메뉴 존재 여부 확인
+        # 메뉴 존재 ?��? ?�인
         menu = self.menu_repository.get_by_id(item['menu_id'])
         if not menu:
-            raise ValidationError("메뉴를 찾을 수 없습니다.")
+            raise ValidationError("메뉴�?찾을 ???�습?�다.")
         
-        # 판매 가능 여부 확인
+        # ?�매 가???��? ?�인
         if not menu.is_available:
             raise ValidationError(
-                f"{menu.name}은(는) 현재 판매하지 않습니다."
+                f"{menu.name}?�(?? ?�재 ?�매?��? ?�습?�다."
             )
         
-        # 가격 일치 확인
+        # 가�??�치 ?�인
         menu_snapshot = item.get('menu_snapshot', {})
         snapshot_price = menu_snapshot.get('price')
         
         if snapshot_price is not None and snapshot_price != menu.price:
             raise ValidationError(
-                "메뉴 가격이 변경되었습니다. 장바구니를 다시 확인해주세요."
+                "메뉴 가격이 변경되?�습?�다. ?�바구니�??�시 ?�인?�주?�요."
             )
         
-        # 수량 확인
+        # ?�량 ?�인
         quantity = item.get('quantity', 0)
         if quantity < 1:
-            raise ValidationError("수량은 1 이상이어야 합니다.")
+            raise ValidationError("?�량?� 1 ?�상?�어???�니??")

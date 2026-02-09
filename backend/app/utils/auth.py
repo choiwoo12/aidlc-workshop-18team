@@ -2,7 +2,7 @@
 Authentication Utilities
 """
 from passlib.context import CryptContext
-from backend.app.config import settings
+from app.config import settings
 
 # Password hashing context
 pwd_context = CryptContext(

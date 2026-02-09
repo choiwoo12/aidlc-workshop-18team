@@ -1,7 +1,7 @@
 """
 Order Controller - Unit 2: Customer Order Domain
 
-주문 생성 및 조회 API 엔드포인트입니다.
+주문 ?�성 �?조회 API ?�드?�인?�입?�다.
 """
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -24,7 +24,7 @@ router = APIRouter(prefix="/api/orders", tags=["orders"])
 
 
 class CartItemRequest(BaseModel):
-    """장바구니 항목 요청 모델"""
+    """?�바구니 ??�� ?�청 모델"""
     menu_id: int
     menu_snapshot: dict
     selected_options: List[dict] = []
@@ -33,13 +33,13 @@ class CartItemRequest(BaseModel):
 
 
 class OrderCreateRequest(BaseModel):
-    """주문 생성 요청 모델"""
+    """주문 ?�성 ?�청 모델"""
     table_id: int
     cart_items: List[CartItemRequest]
 
 
 def get_order_service(db: Session = Depends(get_db)) -> OrderService:
-    """OrderService 의존성 주입"""
+    """OrderService ?�존??주입"""
     order_repository = OrderRepository(db)
     order_item_repository = OrderItemRepository(db)
     table_repository = TableRepository(db)
@@ -63,22 +63,22 @@ async def create_order(
     order_service: OrderService = Depends(get_order_service)
 ):
     """
-    주문 생성
+    주문 ?�성
     
     Args:
-        request: 주문 생성 요청
+        request: 주문 ?�성 ?�청
     
     Returns:
-        생성된 주문 정보
+        ?�성??주문 ?�보
     """
     try:
-        # 장바구니 항목을 dict로 변환
+        # ?�바구니 ??��??dict�?변??
         cart_items = [item.dict() for item in request.cart_items]
         
-        # 주문 생성
+        # 주문 ?�성
         order = order_service.create_order(request.table_id, cart_items)
         
-        # SSE 이벤트 브로드캐스트
+        # SSE ?�벤??브로?�캐?�트
         await sse_service.broadcast_order_created(
             request.table_id,
             order.id,
@@ -99,7 +99,7 @@ async def create_order(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail="주문 생성에 실패했습니다.")
+        raise HTTPException(status_code=500, detail="주문 ?�성???�패?�습?�다.")
 
 
 @router.get("", response_model=List[dict])
@@ -108,10 +108,10 @@ async def get_orders(
     order_service: OrderService = Depends(get_order_service)
 ):
     """
-    테이블별 주문 내역 조회
+    ?�이블별 주문 ?�역 조회
     
     Args:
-        table_id: 테이블 ID
+        table_id: ?�이�?ID
     
     Returns:
         주문 목록
@@ -143,7 +143,7 @@ async def get_orders(
         ]
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail="주문 내역 조회에 실패했습니다.")
+        raise HTTPException(status_code=500, detail="주문 ?�역 조회???�패?�습?�다.")
 
 
 @router.get("/{order_id}", response_model=dict)
@@ -152,13 +152,13 @@ async def get_order(
     order_service: OrderService = Depends(get_order_service)
 ):
     """
-    주문 상세 조회
+    주문 ?�세 조회
     
     Args:
         order_id: 주문 ID
     
     Returns:
-        주문 상세 정보
+        주문 ?�세 ?�보
     """
     try:
         order = order_service.get_order_by_id(order_id)
@@ -186,4 +186,4 @@ async def get_order(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail="주문 조회에 실패했습니다.")
+        raise HTTPException(status_code=500, detail="주문 조회???�패?�습?�다.")

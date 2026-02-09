@@ -4,10 +4,10 @@ Authentication API Controller
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from backend.app.utils.database import get_db
-from backend.app.services.admin_auth_service import AdminAuthService
-from backend.app.services.table_auth_service import TableAuthService
-from backend.app.utils.exceptions import AuthenticationError
+from app.utils.database import get_db
+from app.services.admin_auth_service import AdminAuthService
+from app.services.table_auth_service import TableAuthService
+from app.utils.exceptions import AuthenticationError
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 

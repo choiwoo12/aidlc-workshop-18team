@@ -3,8 +3,8 @@ OrderItem Repository
 """
 from typing import List
 from sqlalchemy.orm import Session
-from backend.app.models.order_item import OrderItem
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.order_item import OrderItem
+from app.repositories.base_repository import BaseRepository
 
 
 class OrderItemRepository(BaseRepository[OrderItem]):

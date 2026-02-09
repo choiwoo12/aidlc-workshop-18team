@@ -1,12 +1,12 @@
 """
 Database Models
 """
-from backend.app.models.store import Store
-from backend.app.models.table import Table
-from backend.app.models.menu import Menu
-from backend.app.models.order import Order
-from backend.app.models.order_item import OrderItem
-from backend.app.models.order_history import OrderHistory
+from app.models.store import Store
+from app.models.table import Table
+from app.models.menu import Menu
+from app.models.order import Order
+from app.models.order_item import OrderItem
+from app.models.order_history import OrderHistory
 
 __all__ = [
     "Store",

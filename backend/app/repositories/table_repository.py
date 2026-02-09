@@ -3,8 +3,8 @@ Table Repository
 """
 from typing import Optional, List
 from sqlalchemy.orm import Session
-from backend.app.models.table import Table, TableStatus
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.table import Table, TableStatus
+from app.repositories.base_repository import BaseRepository
 
 
 class TableRepository(BaseRepository[Table]):

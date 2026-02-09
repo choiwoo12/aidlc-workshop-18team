@@ -3,8 +3,8 @@ Store Repository
 """
 from typing import Optional
 from sqlalchemy.orm import Session
-from backend.app.models.store import Store
-from backend.app.repositories.base_repository import BaseRepository
+from app.models.store import Store
+from app.repositories.base_repository import BaseRepository
 
 
 class StoreRepository(BaseRepository[Store]):

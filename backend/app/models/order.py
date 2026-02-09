@@ -4,24 +4,24 @@ Order Model
 from sqlalchemy import Column, Integer, String, Float, DateTime, Enum as SQLEnum, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from backend.app.utils.database import Base
+from app.utils.database import Base
 import enum
 
 
 class OrderStatus(str, enum.Enum):
-    """주문 상태"""
-    PENDING = "PENDING"  # 대기중 (주문 생성 직후)
-    CONFIRMED = "CONFIRMED"  # 확인됨 (관리자가 확인)
-    PREPARING = "PREPARING"  # 준비중 (조리 시작)
-    READY = "READY"  # 서빙 대기 (조리 완료)
-    COMPLETED = "COMPLETED"  # 완료 (서빙 완료)
+    """주문 ?�태"""
+    PENDING = "PENDING"  # ?�기중 (주문 ?�성 직후)
+    CONFIRMED = "CONFIRMED"  # ?�인??(관리자가 ?�인)
+    PREPARING = "PREPARING"  # 준비중 (조리 ?�작)
+    READY = "READY"  # ?�빙 ?��?(조리 ?�료)
+    COMPLETED = "COMPLETED"  # ?�료 (?�빙 ?�료)
 
 
 class Order(Base):
     """
     Order Entity
     
-    고객 주문 정보 및 상태 관리
+    고객 주문 ?�보 �??�태 관�?
     """
     __tablename__ = "orders"
     
@@ -34,9 +34,9 @@ class Order(Base):
     
     # Attributes
     order_number = Column(String(10), nullable=False, comment="주문 번호")
-    status = Column(SQLEnum(OrderStatus), nullable=False, default=OrderStatus.PENDING, index=True, comment="주문 상태")
-    total_amount = Column(Float, nullable=False, comment="총 금액")
-    lock_version = Column(Integer, nullable=False, default=0, comment="비관적 잠금용 버전 번호")
+    status = Column(SQLEnum(OrderStatus), nullable=False, default=OrderStatus.PENDING, index=True, comment="주문 ?�태")
+    total_amount = Column(Float, nullable=False, comment="�?금액")
+    lock_version = Column(Integer, nullable=False, default=0, comment="비�????�금??버전 번호")
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

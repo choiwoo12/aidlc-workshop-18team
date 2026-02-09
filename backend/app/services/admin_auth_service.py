@@ -2,10 +2,10 @@
 Admin Authentication Service
 """
 from sqlalchemy.orm import Session
-from backend.app.repositories.store_repository import StoreRepository
-from backend.app.utils.auth import verify_password
-from backend.app.utils.jwt_manager import create_access_token
-from backend.app.utils.exceptions import AuthenticationError
+from app.repositories.store_repository import StoreRepository
+from app.utils.auth import verify_password
+from app.utils.jwt_manager import create_access_token
+from app.utils.exceptions import AuthenticationError
 
 
 class AdminAuthService:
@@ -33,11 +33,11 @@ class AdminAuthService:
         store = self.store_repo.get_by_admin_username(username)
         
         if not store:
-            raise AuthenticationError("아이디 또는 비밀번호가 일치하지 않습니다")
+            raise AuthenticationError("?�이???�는 비�?번호가 ?�치?��? ?�습?�다")
         
         # Verify password
         if not verify_password(password, store.admin_password_hash):
-            raise AuthenticationError("아이디 또는 비밀번호가 일치하지 않습니다")
+            raise AuthenticationError("?�이???�는 비�?번호가 ?�치?��? ?�습?�다")
         
         # Create JWT token
         token_data = {

@@ -4,14 +4,14 @@ Store Model
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from backend.app.utils.database import Base
+from app.utils.database import Base
 
 
 class Store(Base):
     """
     Store Entity
     
-    매장 기본 정보 관리
+    매장 기본 ?�보 관�?
     """
     __tablename__ = "stores"
     
@@ -19,9 +19,9 @@ class Store(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     
     # Attributes
-    name = Column(String(100), nullable=False, comment="매장명")
-    admin_username = Column(String(50), unique=True, nullable=False, comment="관리자 계정 아이디")
-    admin_password_hash = Column(String(255), nullable=False, comment="관리자 비밀번호 해시")
+    name = Column(String(100), nullable=False, comment="매장�?)
+    admin_username = Column(String(50), unique=True, nullable=False, comment="관리자 계정 ?�이??)
+    admin_password_hash = Column(String(255), nullable=False, comment="관리자 비�?번호 ?�시")
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

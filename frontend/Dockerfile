@@ -1,10 +1,10 @@
 # Stage 1: Base
-FROM node:18-alpine as base
+FROM node:18-alpine AS base
 
 WORKDIR /app
 
 # Stage 2: Dependencies
-FROM base as dependencies
+FROM base AS dependencies
 
 # Copy package files
 COPY package.json package-lock.json* ./
@@ -13,7 +13,7 @@ COPY package.json package-lock.json* ./
 RUN npm ci || npm install
 
 # Stage 3: Development
-FROM dependencies as development
+FROM dependencies AS development
 
 # Copy application code
 COPY . .

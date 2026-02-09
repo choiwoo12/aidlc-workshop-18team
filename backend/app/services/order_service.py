@@ -1,7 +1,7 @@
 """
 Order Service - Unit 2: Customer Order Domain
 
-주문 생성 및 관리 비즈니스 로직을 담당합니다.
+주문 ?�성 �?관�?비즈?�스 로직???�당?�니??
 """
 
 from typing import List, Dict, Any
@@ -17,7 +17,7 @@ from app.utils.database import get_db
 
 
 class OrderService:
-    """주문 서비스"""
+    """주문 ?�비??""
     
     def __init__(
         self,
@@ -39,34 +39,34 @@ class OrderService:
         cart_items: List[Dict[str, Any]]
     ) -> Order:
         """
-        주문 생성
+        주문 ?�성
         
         Args:
-            table_id: 테이블 ID
-            cart_items: 장바구니 항목 목록
+            table_id: ?�이�?ID
+            cart_items: ?�바구니 ??�� 목록
         
         Returns:
-            생성된 주문 객체
+            ?�성??주문 객체
         
         Raises:
-            ValidationError: 유효성 검증 실패 시
-            ValueError: 테이블을 찾을 수 없을 때
+            ValidationError: ?�효??검�??�패 ??
+            ValueError: ?�이블을 찾을 ???�을 ??
         """
-        # 유효성 검증
+        # ?�효??검�?
         self.validation_service.validate_order_items(cart_items)
         
-        # 테이블 조회
+        # ?�이�?조회
         table = self.table_repository.get_by_id(table_id)
         if not table:
-            raise ValueError("테이블을 찾을 수 없습니다.")
+            raise ValueError("?�이블을 찾을 ???�습?�다.")
         
-        # 주문 번호 생성
+        # 주문 번호 ?�성
         order_number = self.order_number_generator.generate(table.table_number)
         
         # 총액 계산
         total_amount = sum(item['subtotal'] for item in cart_items)
         
-        # Order 생성
+        # Order ?�성
         order = Order(
             table_id=table_id,
             order_number=order_number,
@@ -76,7 +76,7 @@ class OrderService:
         )
         order = self.order_repository.save(order)
         
-        # OrderItem 생성
+        # OrderItem ?�성
         for item in cart_items:
             menu_snapshot = item.get('menu_snapshot', {})
             selected_options = item.get('selected_options', [])
@@ -96,24 +96,24 @@ class OrderService:
     
     def get_orders_by_table(self, table_id: int) -> List[Order]:
         """
-        테이블별 주문 내역 조회
+        ?�이블별 주문 ?�역 조회
         
         Args:
-            table_id: 테이블 ID
+            table_id: ?�이�?ID
         
         Returns:
-            주문 목록 (시간 역순)
+            주문 목록 (?�간 ??��)
         """
         orders = self.order_repository.find_by_table(table_id)
         
-        # 시간 역순 정렬 (최신 주문이 위)
+        # ?�간 ??�� ?�렬 (최신 주문????
         orders.sort(key=lambda x: x.created_at, reverse=True)
         
         return orders
     
     def get_order_by_id(self, order_id: int) -> Order:
         """
-        주문 상세 조회
+        주문 ?�세 조회
         
         Args:
             order_id: 주문 ID
@@ -122,9 +122,9 @@ class OrderService:
             주문 객체
         
         Raises:
-            ValueError: 주문을 찾을 수 없을 때
+            ValueError: 주문??찾을 ???�을 ??
         """
         order = self.order_repository.get_by_id(order_id)
         if not order:
-            raise ValueError("주문을 찾을 수 없습니다.")
+            raise ValueError("주문??찾을 ???�습?�다.")
         return order

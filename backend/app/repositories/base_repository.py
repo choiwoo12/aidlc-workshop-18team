@@ -3,7 +3,7 @@ Base Repository
 """
 from typing import Generic, TypeVar, Type, Optional, List
 from sqlalchemy.orm import Session
-from backend.app.utils.database import Base
+from app.utils.database import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 

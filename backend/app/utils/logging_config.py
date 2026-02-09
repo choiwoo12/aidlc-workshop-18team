@@ -4,7 +4,7 @@ Logging Configuration
 import logging
 import os
 from datetime import datetime
-from backend.app.config import settings
+from app.config import settings
 
 
 def setup_logging():

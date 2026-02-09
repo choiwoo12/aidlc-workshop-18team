@@ -3,7 +3,7 @@ Cache Manager (In-memory)
 """
 from typing import Optional, Any
 from datetime import datetime, timedelta
-from backend.app.config import settings
+from app.config import settings
 import threading
 
 
