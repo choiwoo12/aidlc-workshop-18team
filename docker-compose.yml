@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
     container_name: tableorder-frontend
     ports:
-      - "5173:5173"
+      - "5173:3000"
     volumes:
       - ./frontend/src:/app/src  # Hot reload for development
       - ./frontend/public:/app/public

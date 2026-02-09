@@ -4,8 +4,6 @@
  * 장바구니 관리 서비스 (SessionStorage 기반)
  */
 
-import { v4 as uuidv4 } from 'uuid';
-
 class CartService {
   constructor() {
     this.storageKey = 'cart';
@@ -64,7 +62,7 @@ class CartService {
     } else {
       // 새 항목 추가
       const newItem = {
-        cart_item_id: uuidv4(),
+        cart_item_id: crypto.randomUUID(),
         menu_id: menu.id,
         menu_snapshot: {
           name: menu.name,

@@ -63,6 +63,42 @@ class ValidationService {
   }
 
   /**
+   * 사용자명 검증
+   * @param {string} username
+   * @returns {string|null} 에러 메시지 또는 null
+   */
+  validateUsername(username) {
+    if (!username || username.trim() === '') {
+      return '아이디를 입력해주세요.'
+    }
+    return null
+  }
+
+  /**
+   * 비밀번호 검증
+   * @param {string} password
+   * @returns {string|null} 에러 메시지 또는 null
+   */
+  validatePassword(password) {
+    if (!password || password.trim() === '') {
+      return '비밀번호를 입력해주세요.'
+    }
+    return null
+  }
+
+  /**
+   * 테이블 번호 검증
+   * @param {string} tableNumber
+   * @returns {string|null} 에러 메시지 또는 null
+   */
+  validateTableNumber(tableNumber) {
+    if (!tableNumber || tableNumber.trim() === '') {
+      return '테이블 번호를 입력해주세요.'
+    }
+    return null
+  }
+
+  /**
    * 단일/다중 선택 검증
    * @param {Object} optionGroup - 옵션 그룹
    * @param {Array} selectedOptions - 선택된 옵션 (해당 그룹)

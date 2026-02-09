@@ -1,7 +1,6 @@
 """
 Menu Controller - Unit 2: Customer Order Domain
 
-메뉴 조회 API ?�드?�인?�입?�다.
 """
 
 from fastapi import APIRouter, Depends, Query
@@ -17,7 +16,7 @@ router = APIRouter(prefix="/api/menus", tags=["menus"])
 
 
 def get_menu_service(db: Session = Depends(get_db)) -> MenuService:
-    """MenuService ?�존??주입"""
+    """MenuService ?�존??주입"""
     menu_repository = MenuRepository(db)
     return MenuService(menu_repository)
 
@@ -25,15 +24,15 @@ def get_menu_service(db: Session = Depends(get_db)) -> MenuService:
 @router.get("", response_model=List[dict])
 async def get_menus(
     store_id: int = Query(1, description="매장 ID"),
-    category: Optional[str] = Query(None, description="카테고리 ?�터"),
+    category: Optional[str] = Query(None, description="카테고리 ?�터"),
     menu_service: MenuService = Depends(get_menu_service)
 ):
     """
-    ?�매 가?�한 메뉴 목록 조회
+    ?�매 가?�한 메뉴 목록 조회
     
     Args:
-        store_id: 매장 ID (기본�? 1)
-        category: 카테고리 ?�터 (?�택?�항)
+        store_id: 매장 ID (기본�? 1)
+        category: 카테고리 ?�터 (?�택?�항)
     
     Returns:
         메뉴 목록
@@ -62,18 +61,18 @@ async def get_menu(
     menu_service: MenuService = Depends(get_menu_service)
 ):
     """
-    메뉴 ?�세 조회
+    메뉴 ?�세 조회
     
     Args:
         menu_id: 메뉴 ID
     
     Returns:
-        메뉴 ?�세 ?�보
+        메뉴 ?�세 ?�보
     """
     menu = menu_service.get_menu_by_id(menu_id)
     
     if not menu:
-        return {"error": "메뉴�?찾을 ???�습?�다."}, 404
+        return {"error": "메뉴�?찾을 ???�습?�다."}, 404
     
     return {
         "id": menu.id,
@@ -97,7 +96,7 @@ async def get_categories(
     카테고리 목록 조회
     
     Args:
-        store_id: 매장 ID (기본�? 1)
+        store_id: 매장 ID (기본�? 1)
     
     Returns:
         카테고리 목록

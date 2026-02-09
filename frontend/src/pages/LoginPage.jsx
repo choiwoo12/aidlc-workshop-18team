@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Input } from '../components/common/Input'
 import { Button } from '../components/common/Button'
 import { ErrorMessage } from '../components/common/ErrorMessage'
-import { ValidationService } from '../services/ValidationService'
+import ValidationService from '../services/ValidationService'
 
 const LoginPage = () => {
   const navigate = useNavigate()

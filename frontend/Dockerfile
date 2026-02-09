@@ -19,7 +19,7 @@ FROM dependencies AS development
 COPY . .
 
 # Expose port
-EXPOSE 5173
+EXPOSE 3000
 
 # Run development server with host binding
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
