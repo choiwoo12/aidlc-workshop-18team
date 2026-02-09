@@ -41,8 +41,7 @@ def create_initial_data():
             table = Table(
                 store_id=store.id,
                 table_number=str(i),
-                status=TableStatus.AVAILABLE,
-                capacity=4
+                status=TableStatus.AVAILABLE
             )
             db.add(table)
         
