@@ -3,6 +3,7 @@ Database Initialization Script
 """
 from app.utils.database import init_db, SessionLocal
 from app.models.store import Store
+from app.models.table import Table, TableStatus
 from app.utils.auth import hash_password
 
 
@@ -27,11 +28,26 @@ def create_initial_data():
         )
         db.add(store)
         db.commit()
+        db.refresh(store)
         
         print("Initial data created successfully:")
         print(f"  Store: {store.name}")
         print(f"  Admin Username: {store.admin_username}")
         print(f"  Admin Password: admin1234")
+        
+        # Create initial tables (1-10)
+        print("\nCreating tables...")
+        for i in range(1, 11):
+            table = Table(
+                store_id=store.id,
+                table_number=str(i),
+                status=TableStatus.AVAILABLE,
+                capacity=4
+            )
+            db.add(table)
+        
+        db.commit()
+        print(f"  Created 10 tables (1-10)")
         
     except Exception as e:
         print(f"Error creating initial data: {e}")
