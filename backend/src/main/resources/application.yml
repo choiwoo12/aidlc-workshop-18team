@@ -1,0 +1,55 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: table-order-backend
+  
+  datasource:
+    url: jdbc:h2:mem:tableorder
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m
+  
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  type-aliases-package: com.tableorder.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+jwt:
+  secret: ${JWT_SECRET:default-secret-key-change-in-production}
+  expiration: 57600000  # 16시간 (밀리초)
+
+file:
+  upload:
+    dir: /var/uploads/table-order/menus/
+    max-files: 100
+    max-size: 5242880  # 5MB
+
+logging:
+  level:
+    root: INFO
+    com.tableorder: INFO
