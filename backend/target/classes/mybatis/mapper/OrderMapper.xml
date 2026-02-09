@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tableorder.mapper.OrderMapper">
+
+    <resultMap id="OrderResultMap" type="com.tableorder.domain.Order">
+        <id property="id" column="id"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="tableId" column="table_id"/>
+        <result property="sessionId" column="session_id"/>
+        <result property="status" column="status"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <resultMap id="OrderItemResultMap" type="com.tableorder.domain.OrderItem">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.tableorder.domain.Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order` (order_number, table_id, session_id, status, total_amount, created_at)
+        VALUES (#{orderNumber}, #{tableId}, #{sessionId}, #{status}, #{totalAmount}, #{createdAt})
+    </insert>
+
+    <insert id="insertOrderItem" parameterType="com.tableorder.domain.OrderItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_item (order_id, menu_id, quantity, unit_price, created_at)
+        VALUES (#{orderId}, #{menuId}, #{quantity}, #{unitPrice}, #{createdAt})
+    </insert>
+
+    <select id="findById" resultMap="OrderResultMap">
+        SELECT * FROM `order`
+        WHERE id = #{id}
+    </select>
+
+    <select id="findBySessionId" resultMap="OrderResultMap">
+        SELECT * FROM `order`
+        WHERE session_id = #{sessionId}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="findRecentByStoreId" resultMap="OrderResultMap">
+        SELECT o.* FROM `order` o
+        INNER JOIN `table` t ON o.table_id = t.id
+        WHERE t.store_id = #{storeId}
+        ORDER BY o.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="findOrderItemsByOrderId" resultMap="OrderItemResultMap">
+        SELECT * FROM order_item
+        WHERE order_id = #{orderId}
+        ORDER BY id
+    </select>
+
+</mapper>

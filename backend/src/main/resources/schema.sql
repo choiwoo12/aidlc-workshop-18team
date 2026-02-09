@@ -11,94 +11,72 @@ CREATE TABLE IF NOT EXISTS stores (
 );
 
 -- Table Table
-CREATE TABLE IF NOT EXISTS tables (
+CREATE TABLE IF NOT EXISTS `table` (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     store_id BIGINT NOT NULL,
     table_number INT NOT NULL,
-    pin VARCHAR(64) NOT NULL,
     session_id VARCHAR(36),
-    session_status VARCHAR(20) NOT NULL DEFAULT 'INACTIVE',
-    session_start_time TIMESTAMP,
+    session_active BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (store_id) REFERENCES stores(id),
-    UNIQUE KEY uk_store_table (store_id, table_number),
-    CHECK (table_number BETWEEN 1 AND 10)
+    CONSTRAINT uk_store_table UNIQUE (store_id, table_number)
 );
 
 -- Menu Table
-CREATE TABLE IF NOT EXISTS menus (
+CREATE TABLE IF NOT EXISTS menu (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     store_id BIGINT NOT NULL,
     name VARCHAR(100) NOT NULL,
     price INT NOT NULL,
-    description VARCHAR(500),
-    category VARCHAR(50) NOT NULL,
-    image_path VARCHAR(255),
-    display_order INT NOT NULL DEFAULT 0,
+    image_url VARCHAR(255),
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (store_id) REFERENCES stores(id),
-    CHECK (price >= 0)
+    FOREIGN KEY (store_id) REFERENCES stores(id)
 );
 
 -- Order Table
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE IF NOT EXISTS `order` (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(50) NOT NULL UNIQUE,
-    store_id BIGINT NOT NULL,
     table_id BIGINT NOT NULL,
     session_id VARCHAR(36) NOT NULL,
-    order_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     total_amount INT NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT '대기중',
-    version INT NOT NULL DEFAULT 0,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (store_id) REFERENCES stores(id),
-    FOREIGN KEY (table_id) REFERENCES tables(id),
-    CHECK (total_amount >= 0)
+    FOREIGN KEY (table_id) REFERENCES `table`(id)
 );
 
 -- OrderItem Table
-CREATE TABLE IF NOT EXISTS order_items (
+CREATE TABLE IF NOT EXISTS order_item (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_id BIGINT NOT NULL,
     menu_id BIGINT NOT NULL,
-    menu_name VARCHAR(100) NOT NULL,
     quantity INT NOT NULL,
     unit_price INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (menu_id) REFERENCES menus(id),
-    CHECK (quantity > 0),
-    CHECK (unit_price >= 0)
+    FOREIGN KEY (order_id) REFERENCES `order`(id),
+    FOREIGN KEY (menu_id) REFERENCES menu(id)
 );
 
 -- OrderHistory Table
 CREATE TABLE IF NOT EXISTS order_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_id BIGINT NOT NULL,
     order_number VARCHAR(50) NOT NULL,
-    store_id BIGINT NOT NULL,
     table_id BIGINT NOT NULL,
     session_id VARCHAR(36) NOT NULL,
-    order_time TIMESTAMP NOT NULL,
     total_amount INT NOT NULL,
     status VARCHAR(20) NOT NULL,
-    completed_time TIMESTAMP NOT NULL,
-    archived_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- OrderHistoryItem Table
-CREATE TABLE IF NOT EXISTS order_history_items (
+CREATE TABLE IF NOT EXISTS order_history_item (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_history_id BIGINT NOT NULL,
     menu_id BIGINT NOT NULL,
-    menu_name VARCHAR(100) NOT NULL,
     quantity INT NOT NULL,
     unit_price INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -106,25 +84,13 @@ CREATE TABLE IF NOT EXISTS order_history_items (
 );
 
 -- User Table
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS `user` (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     store_id BIGINT NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(60) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     role VARCHAR(20) NOT NULL,
-    login_attempts INT NOT NULL DEFAULT 0,
-    locked_until TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (store_id) REFERENCES stores(id)
 );
-
--- Indexes for performance
-CREATE INDEX idx_table_store_session ON tables(store_id, session_id);
-CREATE INDEX idx_menu_store_category ON menus(store_id, category, display_order);
-CREATE INDEX idx_menu_deleted ON menus(deleted);
-CREATE INDEX idx_order_table_session ON orders(table_id, session_id);
-CREATE INDEX idx_order_store_time ON orders(store_id, order_time);
-CREATE INDEX idx_order_deleted ON orders(deleted);
-CREATE INDEX idx_order_history_store_time ON order_history(store_id, archived_time);
-CREATE INDEX idx_user_store ON users(store_id);

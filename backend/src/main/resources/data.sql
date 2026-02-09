@@ -1,30 +1,30 @@
--- Sample data for development
+-- Sample Data for Table Order System
 
--- Insert sample stores
+-- Insert Stores
 INSERT INTO stores (name, address, phone) VALUES
-('테이블오더 강남점', '서울시 강남구 테헤란로 123', '02-1234-5678'),
-('테이블오더 홍대점', '서울시 마포구 홍익로 456', '02-2345-6789');
+('테스트 매장 1', '서울시 강남구', '02-1234-5678'),
+('테스트 매장 2', '서울시 서초구', '02-2345-6789');
 
--- Insert sample tables (PIN: 1234 hashed with SHA-256)
-INSERT INTO tables (store_id, table_number, pin, session_status) VALUES
-(1, 1, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'INACTIVE'),
-(1, 2, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'INACTIVE'),
-(1, 3, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'INACTIVE'),
-(2, 1, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'INACTIVE'),
-(2, 2, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'INACTIVE');
+-- Insert Tables
+INSERT INTO `table` (store_id, table_number, session_id, session_active) VALUES
+(1, 1, 'test-session-001', TRUE),
+(1, 2, NULL, FALSE),
+(1, 3, NULL, FALSE),
+(2, 1, NULL, FALSE),
+(2, 2, NULL, FALSE);
 
--- Insert sample menus
-INSERT INTO menus (store_id, name, price, description, category, display_order) VALUES
-(1, '김치찌개', 8000, '얼큰한 김치찌개', '찌개류', 1),
-(1, '된장찌개', 7000, '구수한 된장찌개', '찌개류', 2),
-(1, '제육볶음', 9000, '매콤한 제육볶음', '볶음류', 3),
-(1, '불고기', 12000, '달콤한 불고기', '구이류', 4),
-(1, '공기밥', 1000, '흰쌀밥', '밥류', 5),
-(2, '파스타', 13000, '크림 파스타', '양식', 1),
-(2, '피자', 18000, '치즈 피자', '양식', 2),
-(2, '샐러드', 8000, '신선한 샐러드', '샐러드', 3);
+-- Insert Menus
+INSERT INTO menu (store_id, name, price, image_url, deleted) VALUES
+(1, '김치찌개', 8000, NULL, FALSE),
+(1, '된장찌개', 7000, NULL, FALSE),
+(1, '비빔밥', 9000, NULL, FALSE),
+(1, '불고기', 15000, NULL, FALSE),
+(1, '공기밥', 1000, NULL, FALSE),
+(2, '짜장면', 6000, NULL, FALSE),
+(2, '짬뽕', 7000, NULL, FALSE),
+(2, '탕수육', 18000, NULL, FALSE);
 
--- Insert sample admin users (password: admin123 hashed with bcrypt)
-INSERT INTO users (store_id, username, password, role) VALUES
-(1, 'admin1', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'ADMIN'),
-(2, 'admin2', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'ADMIN');
+-- Insert Admin User (password: admin, SHA-256 hashed)
+INSERT INTO `user` (store_id, username, password, role) VALUES
+(1, 'admin1', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'ADMIN'),
+(2, 'admin2', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'ADMIN');
