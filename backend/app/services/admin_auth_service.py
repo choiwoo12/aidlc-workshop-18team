@@ -33,11 +33,11 @@ class AdminAuthService:
         store = self.store_repo.get_by_admin_username(username)
         
         if not store:
-            raise AuthenticationError("?„ì´???ëŠ” ë¹„ë?ë²ˆí˜¸ê°€ ?¼ì¹˜?˜ì? ?ŠìŠµ?ˆë‹¤")
+            raise AuthenticationError("Invalid username or password")
         
         # Verify password
         if not verify_password(password, store.admin_password_hash):
-            raise AuthenticationError("?„ì´???ëŠ” ë¹„ë?ë²ˆí˜¸ê°€ ?¼ì¹˜?˜ì? ?ŠìŠµ?ˆë‹¤")
+            raise AuthenticationError("Invalid username or password")
         
         # Create JWT token
         token_data = {

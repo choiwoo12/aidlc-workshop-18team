@@ -9,19 +9,19 @@ import enum
 
 
 class OrderStatus(str, enum.Enum):
-    """주문 ?�태"""
-    PENDING = "PENDING"  # ?�기중 (주문 ?�성 직후)
-    CONFIRMED = "CONFIRMED"  # ?�인??(관리자가 ?�인)
-    PREPARING = "PREPARING"  # 준비중 (조리 ?�작)
-    READY = "READY"  # ?�빙 ?��?(조리 ?�료)
-    COMPLETED = "COMPLETED"  # ?�료 (?�빙 ?�료)
+    """Order status"""
+    PENDING = "PENDING"  # Waiting (just created)
+    CONFIRMED = "CONFIRMED"  # Confirmed (by admin)
+    PREPARING = "PREPARING"  # Preparing (cooking started)
+    READY = "READY"  # Ready for serving (cooking done)
+    COMPLETED = "COMPLETED"  # Completed (served)
 
 
 class Order(Base):
     """
     Order Entity
     
-    고객 주문 ?�보 �??�태 관�?
+    Customer order information and status management
     """
     __tablename__ = "orders"
     
@@ -33,10 +33,10 @@ class Order(Base):
     table_id = Column(Integer, ForeignKey("tables.id", ondelete="CASCADE"), nullable=False, index=True)
     
     # Attributes
-    order_number = Column(String(10), nullable=False, comment="주문 번호")
-    status = Column(SQLEnum(OrderStatus), nullable=False, default=OrderStatus.PENDING, index=True, comment="주문 ?�태")
-    total_amount = Column(Float, nullable=False, comment="�?금액")
-    lock_version = Column(Integer, nullable=False, default=0, comment="비�????�금??버전 번호")
+    order_number = Column(String(10), nullable=False, comment="Order number")
+    status = Column(SQLEnum(OrderStatus), nullable=False, default=OrderStatus.PENDING, index=True, comment="Order status")
+    total_amount = Column(Float, nullable=False, comment="Total amount")
+    lock_version = Column(Integer, nullable=False, default=0, comment="Optimistic lock version")
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

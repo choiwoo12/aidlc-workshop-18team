@@ -34,7 +34,7 @@ class TableAuthService:
         table = self.table_repo.get_by_table_number(store_id, table_number)
         
         if not table:
-            raise AuthenticationError("ì¡´ì¬?˜ì? ?ŠëŠ” ?Œì´ë¸?ë²ˆí˜¸?…ë‹ˆ??)
+            raise AuthenticationError("Table not found")
         
         # Update table status to IN_USE if AVAILABLE
         if table.status == TableStatus.AVAILABLE:
